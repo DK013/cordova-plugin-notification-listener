@@ -5,7 +5,7 @@ Installation
 --------
 
 ```bash
-cordova plugin add https://github.com/SmallTsai/cordova-plugin-notification-listener.git
+cordova plugin add https://github.com/DK013/cordova-plugin-notification-listener.git
 ```
 
 Supported Platforms
