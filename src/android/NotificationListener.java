@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -108,7 +109,7 @@ public class NotificationListener extends CordovaPlugin {
             public void run() {
                 Builder builder;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                    builder = new Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+                    builder = new Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_DARK);
                 } else {
                     builder = new Builder(cordova.getActivity());
                 }
@@ -141,13 +142,11 @@ public class NotificationListener extends CordovaPlugin {
 
     private void openSettings() {
         try {
-            Intent intent;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                intent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
-            } else {
-                intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-            }
+            Intent intent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
             Context context = cordova.getActivity().getApplicationContext();
+            if (!(context instanceof Activity)) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            }
             context.startActivity(intent);
         } catch (Exception e) {
             LOG.d(LOG_TAG, e.getMessage());
