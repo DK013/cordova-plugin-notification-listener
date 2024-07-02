@@ -99,11 +99,11 @@ public class NotificationListener extends CordovaPlugin {
         return listeners != null && listeners.contains(packageName);
     }
 
-    private void requestPermissions() {
-        showConfirmPermissionDialog();
+    private void requestPermissions(CallbackContext callbackContext) {
+        showConfirmPermissionDialog(callbackContext);
     }
 
-    private void showConfirmPermissionDialog() {
+    private void showConfirmPermissionDialog(CallbackContext callbackContext) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -121,6 +121,9 @@ public class NotificationListener extends CordovaPlugin {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         openSettings();
+                        JSONObject returnObj = new JSONObject();
+                        addProperty(returnObj, "taskCompleted", true);
+                        callbackContext.success(returnObj);
                     }
                 });
                 builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
