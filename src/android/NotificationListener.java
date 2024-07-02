@@ -57,7 +57,7 @@ public class NotificationListener extends CordovaPlugin {
                 isNotificationListerEnabled(callbackContext);
                 return true;
             case ACTION_REQUEST_PERMISSION:
-                requestPermissions();
+                requestPermissions(callbackContext);
                 return true;
             case ACTION_IS_RUNNING:
                 isServiceRunning(callbackContext);
@@ -130,6 +130,9 @@ public class NotificationListener extends CordovaPlugin {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                        JSONObject returnObj = new JSONObject();
+                        addProperty(returnObj, "taskCanceled", true);
+                        callbackContext.success(returnObj);
                     }
                 });
                 builder.create();
